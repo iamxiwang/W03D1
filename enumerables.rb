@@ -7,21 +7,18 @@ class Array
             prc.call(self[i])
             i += 1
         end
+        self
     end
 
     def my_select(&prc)
-        output = []
-        self.each do |ele|
-            if prc.call(ele)
-                output << ele
-            end
-        end
+        output=[]
+        self.my_each{|ele|output << ele if prc.call(ele)}
         output
     end
 
     def my_reject(&prc)
         output = []
-        self.each do |ele|
+        self.my_each do |ele|
             if !prc.call(ele)
                 output << ele
             end
@@ -30,15 +27,16 @@ class Array
     end
 
     def my_any?(&prc)
-        self.each do |ele|
+        self.my_each do |ele|
             if prc.call(ele)
                 return true
             end
         end
+        return false
     end
 
     def my_all?(&prc)
-        self.each do |ele|
+        self.my_each do |ele|
             if !prc.call(ele)
                 return false
             end
@@ -73,12 +71,14 @@ class Array
         end
     end
 
-    def my_join(seperator = " ")
-        self.join(seperator)
+    def my_join(seperator = "")
+       self.join(seperator)
     end
 
     def my_reverse
-        
+        output = []
+        self.each {|ele| output.unshift(ele)}
+        output
     end
 
 end
